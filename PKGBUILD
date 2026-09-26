@@ -1,16 +1,51 @@
 # SPDX-License-Identifier: AGPL-3.0
+
+#    -----------------------------------------------------
+#    Copyright © 2024, 2025, 2026  Pellegrino Prevete
 #
-# Maintainer: Truocolo <truocolo@aol.com>
-# Maintainer: Pellegrino Prevete (tallero) <pellegrinoprevete@gmail.com>
+#    All rights reserved
+#    -----------------------------------------------------
+#
+#    This program is free software: you can redistribute
+#    it and/or modify it under the terms of the
+#    GNU Affero General Public License as published by
+#    the Free Software Foundation, either version 3 of
+#    the License, or (at your option) any later version.
+#
+#    This program is distributed in the hope that it
+#    will be useful, but WITHOUT ANY WARRANTY;
+#    without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+#    See the GNU Affero General Public License for
+#    more details.
+#
+#    You should have received a copy of the
+#    GNU Affero General Public License
+#    along with this program.
+#    If not, see <https://www.gnu.org/licenses/>.
+
+# Maintainers:
+#   Truocolo
+#     <truocolo@aol.com>
+#     <truocolo@0x6E5163fC4BFc1511Dbe06bB605cc14a3e462332b>
+#   Pellegrino Prevete (dvorak)
+#     <pellegrinoprevete@gmail.com>
+#     <dvorak@0x87003Bd6C074C713783df04f36517451fF34CBEf>
+
 
 _offline="false"
 _git="false"
-pkgname=displayctl
+_pkg=displayctl
+pkgbase="${_pkg}"
+pkgname=(
+  "${_pkg}"
+)
 pkgver=0.0.0.0.0.0.0.0.0.0.0.0.0.1.1.1.1
 _commit="28a4afdc07e5dcd80fe783bf24370586cf6c3d51"
 pkgrel=1
 _pkgdesc=(
-  "Manage displays."
+  "SissystemD core component"
+  "to manage displays."
 )
 pkgdesc="${_pkgdesc[*]}"
 arch=(
@@ -20,26 +55,27 @@ _http="https://github.com"
 _ns="themartiancompany"
 url="${_http}/${_ns}/${pkgname}"
 license=(
-  AGPL3
+  "AGPL3"
 )
 depends=(
 )
 _os="$( \
   uname \
     -o)"
-[[ "${_os}" != "GNU/Linux" ]] && \
-[[ "${_os}" == "Android" ]] && \
+if [[ "${_os}" != "GNU/Linux" ]] && \
+   [[ "${_os}" == "Android" ]]; then
   depends+=(
     "android-display-utils"
-    "tsu"
+    "sudo"
   )
+fi
 optdepends=(
 )
 [[ "${_os}" == 'Android' ]] && \
   optdepends+=(
   )
 makedepends=(
-  make
+  "make"
 )
 checkdepends=(
   "shellcheck"
@@ -52,30 +88,31 @@ _tag_name="commit"
 _tarname="${pkgname}-${_tag}"
 [[ "${_offline}" == "true" ]] && \
   url="file://${HOME}/${pkgname}"
-[[ "${_git}" == true ]] && \
+if [[ "${_git}" == true ]]; then
   makedepends+=(
     "git"
-  ) && \
+  )
   source+=(
     "${_tarname}::git+${_url}#${_tag_name}=${_tag}?signed"
-  ) && \
+  )
   sha256sums+=(
     SKIP
   )
-[[ "${_git}" == false ]] && \
+elif [[ "${_git}" == false ]]; then
   if [[ "${_tag_name}" == 'pkgver' ]]; then
     _tar="${_tarname}.tar.gz::${_url}/archive/refs/tags/${_tag}.tar.gz"
     _sum="d4f4179c6e4ce1702c5fe6af132669e8ec4d0378428f69518f2926b969663a91"
   elif [[ "${_tag_name}" == "commit" ]]; then
     _tar="${_tarname}.zip::${_url}/archive/${_commit}.zip"
     _sum="f1f4b1da28788ec092f72e84a78392211e629d58aac2fbc887d7d6eeed9efe9a"
-  fi && \
-    source+=(
-      "${_tar}"
-    ) && \
-    sha256sums+=(
-      "${_sum}"
-    )
+  fi
+  source+=(
+    "${_tar}"
+  )
+  sha256sums+=(
+    "${_sum}"
+  )
+fi
 validpgpkeys=(
   # Truocolo <truocolo@aol.com>
   '97E989E6CF1D2C7F7A41FF9F95684DBE23D6A3E9'
