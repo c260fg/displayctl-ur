@@ -42,7 +42,7 @@ pkgname=(
 )
 pkgver=0.0.0.0.0.0.0.0.0.0.0.0.0.1.1.1.1
 _commit="28a4afdc07e5dcd80fe783bf24370586cf6c3d51"
-pkgrel=1
+pkgrel=2
 _pkgdesc=(
   "SissystemD core component"
   "to manage displays."
